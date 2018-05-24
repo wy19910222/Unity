@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public sealed class EditorWaitForSeconds : YieldInstruction
+public sealed class EditorWaitForSeconds
 {
 	private double m_Seconds;
 	private double m_DoneTime;
@@ -29,7 +29,7 @@ public sealed class EditorWaitForSeconds : YieldInstruction
 	}
 }
 
-public sealed class EditorCoroutine : YieldInstruction
+public sealed class EditorCoroutine
 {
 	private IEnumerator m_Ie;
 	private object m_Owner;
@@ -154,11 +154,15 @@ public class EditorDelayedCallManager
 
 	private void AddCoroutine(EditorCoroutine coroutine)
 	{
-		Type type = coroutine.ie.Current.GetType();
-		if (m_CoroutineListDict.ContainsKey(type))
+		object current = coroutine.ie.Current;
+		if (current != null)
 		{
-			m_CoroutineListDict[type].Add(coroutine);
-			return;
+			Type type = coroutine.ie.Current.GetType();
+			if (m_CoroutineListDict.ContainsKey(type))
+			{
+				m_CoroutineListDict[type].Add(coroutine);
+				return;
+			}
 		}
 		m_CoroutineListDict[typeof(object)].Add(coroutine);
 	}
