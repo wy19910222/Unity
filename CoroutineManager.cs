@@ -186,7 +186,7 @@ namespace Main
 #if UNITY_5_3_OR_NEWER
 			return Wait(new WaitUntil(waitUntil), operation, behaviour);
 #else
-			return StartCoroutine(DoWait(waitUntil, operation), behaviour);
+			return Start(DoWait(waitUntil, operation), behaviour);
 #endif
 		}
 
